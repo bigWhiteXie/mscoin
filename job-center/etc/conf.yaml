@@ -1,0 +1,13 @@
+Okx:
+  key: 0e004ef7-6a37-451b-b8eb-2c54b082def8
+  secret: C57A505F8919486F2026FDE3F34B8CA2
+  passphrase: j3391111!Xl
+  host: https://okx.com
+  proxy: http://localhost:7890
+
+
+
+Symbols:
+  - BTC-USDT
+  - ETH-USDT
+
