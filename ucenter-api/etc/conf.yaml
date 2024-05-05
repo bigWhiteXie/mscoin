@@ -1,0 +1,15 @@
+Name: ucenterapi-api
+Host: 0.0.0.0
+Port: 8888
+rpcclient:
+  Etcd:
+    Hosts:
+      - 117.50.181.29:2379
+    Key: ucenter-rpc.rpc
+Mysql:
+  DataSource: root:j3391111@tcp(117.50.181.29:3306)/mscoin?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+Redis:
+  Host: 127.0.0.1:6379
+  Type: node
+
+

@@ -3,7 +3,7 @@ Okx:
   secret: C57A505F8919486F2026FDE3F34B8CA2
   passphrase: j3391111!Xl
   host: https://okx.com
-  proxy: http://localhost:7890
+  proxy: http://localhost:10808
 
 
 
