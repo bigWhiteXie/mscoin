@@ -1,9 +1,8 @@
-module ucenter
+module market
 
 go 1.22.1
 
 require (
-	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/zeromicro/go-zero v1.6.4
 	google.golang.org/grpc v1.63.2
 	gorm.io/driver/mysql v1.5.6

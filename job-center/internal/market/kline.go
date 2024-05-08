@@ -1,9 +1,14 @@
 package market
 
 import (
+	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"job-center/internal/config"
+	"job-center/internal/dao"
+	"job-center/internal/database"
+	"job-center/internal/domain"
+	"job-center/internal/model"
 	"log"
 	"net/http"
 	"strings"
@@ -13,16 +18,20 @@ import (
 
 // kline的定时任务领域
 type Kline struct {
-	wg      *sync.WaitGroup
-	c       *config.Config
-	reqPath string
+	wg          *sync.WaitGroup
+	c           *config.Config
+	klineDomain *domain.KlineDomain
+	reqPath     string
 }
 
 func NewKline(c *config.Config) *Kline {
+	klineDao := dao.NewKlineDao(database.ConnectMongo(c).Db)
+	klineDomain := domain.NewKlineDomain(klineDao)
 	return &Kline{
-		wg:      &sync.WaitGroup{},
-		c:       c,
-		reqPath: "/api/v5/market/candles",
+		wg:          &sync.WaitGroup{},
+		c:           c,
+		klineDomain: klineDomain,
+		reqPath:     "/api/v5/market/candles",
 	}
 }
 
@@ -61,10 +70,18 @@ func (k *Kline) syncToMongo(instId string, symbol string, period string) {
 	defer resp.Body.Close()
 
 	// 读取和处理响应
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatalf("Error reading HTTP response: %v", err)
 	}
-
+	klineRes := &model.OkxKlineRes{}
+	if err := json.Unmarshal(body, klineRes); err != nil {
+		log.Printf(err.Error())
+		return
+	}
+	if err = k.klineDomain.Save(klineRes.Data, symbol, period); err != nil {
+		log.Printf("save error: " + err.Error())
+		return
+	}
 	fmt.Println("HTTP Response:", string(body))
 }

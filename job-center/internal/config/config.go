@@ -11,8 +11,12 @@ import (
 type Config struct {
 	Okx     *Okx
 	Symbols []string
+	Mongo   Mongo
 }
 
+type Mongo struct {
+	Url string
+}
 type Okx struct {
 	Key        string
 	Secret     string

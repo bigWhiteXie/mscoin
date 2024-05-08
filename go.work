@@ -4,5 +4,6 @@ use (
 	coin-common
 	grpc-common
 	./ucenter-rpc
-	ucenter-api
+	./mscoin-api
+	./market-rpc
 )

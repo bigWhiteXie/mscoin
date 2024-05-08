@@ -4,7 +4,6 @@ import (
 	"coin-common/tools"
 	"context"
 	"errors"
-	"github.com/golang-jwt/jwt/v4"
 	"grpc-common/ucenter/login"
 	"time"
 	"ucenter/internal/domain"
@@ -43,7 +42,7 @@ func (l *LoginLogic) Login(in *login.LoginReq) (*login.LoginRes, error) {
 	}
 	accessExpire := l.svcCtx.Config.JWT.AccessExpire
 	accessSecret := l.svcCtx.Config.JWT.AccessSecret
-	token, err := l.getJwtToken(accessSecret, time.Now().Unix(), accessExpire, mem.Id)
+	token, err := tools.GetJwtToken(accessSecret, time.Now().Unix(), accessExpire, mem.Id)
 	if err != nil {
 		return nil, errors.New("未知错误，请联系管理员")
 	}
@@ -65,14 +64,4 @@ func (l *LoginLogic) Login(in *login.LoginReq) (*login.LoginRes, error) {
 		LoginCount:    int32(loginCount),
 	}, nil
 
-}
-
-func (l *LoginLogic) getJwtToken(secretKey string, iat, seconds, userId int64) (string, error) {
-	claims := make(jwt.MapClaims)
-	claims["exp"] = iat + seconds
-	claims["iat"] = iat
-	claims["userId"] = userId
-	token := jwt.New(jwt.SigningMethodHS256)
-	token.Claims = claims
-	return token.SignedString([]byte(secretKey))
 }

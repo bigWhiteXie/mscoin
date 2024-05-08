@@ -1,0 +1,14 @@
+Name: market-rpc.rpc
+ListenOn: 127.0.0.1:8098
+Etcd:
+  Hosts:
+    - 117.50.181.29:2379
+  Key: market-rpc.rpc
+Mysql:
+  DataSource: root:j3391111@tcp(117.50.181.29:3306)/mscoin?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+RedisConf:
+    Host: 127.0.0.1:6379
+    Type: node
+JWT:
+  AccessSecret: "!@#$mscoin"
+  AccessExpire: 604800
