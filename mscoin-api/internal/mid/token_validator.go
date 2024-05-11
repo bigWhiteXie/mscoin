@@ -15,7 +15,7 @@ func TokenValidator(secret string) func(next http.HandlerFunc) http.Handler {
 			// 获取 Authorization 头部
 			token := r.Header.Get("Authorization")
 			result := common.NewResult()
-			result.Fail(4000, "no login")
+			result.Fail(4000, "no ucenter")
 
 			if token == "" {
 				httpx.WriteJson(w, 200, result)

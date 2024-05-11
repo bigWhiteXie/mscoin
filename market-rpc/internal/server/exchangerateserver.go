@@ -6,7 +6,7 @@ package server
 import (
 	"context"
 	rate2 "grpc-common/market/rate"
-	domain "market/internal/domain/exchange"
+	"market/internal/domain"
 	"market/internal/logic"
 	"market/internal/svc"
 )

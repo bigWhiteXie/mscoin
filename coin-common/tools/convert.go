@@ -3,7 +3,6 @@ package tools
 import (
 	"log"
 	"strconv"
-	"time"
 )
 
 func ToFloat64(data string) float64 {
@@ -13,12 +12,6 @@ func ToFloat64(data string) float64 {
 		log.Fatalf("Failed to convert to float64: %v", err) // 处理错误
 	}
 	return result
-}
-
-func ToTimeString(data int64) string {
-	// 将时间戳转换为 time.Time 对象
-	t := time.Unix(data, 0).UTC() // 使用 UTC 时区
-	return t.Format(time.RFC3339)
 }
 
 func ToInt64(data string) int64 {

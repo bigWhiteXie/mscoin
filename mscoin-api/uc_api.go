@@ -4,8 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"ucenter-api/internal/config"
-	"ucenter-api/internal/handler/market"
-	"ucenter-api/internal/handler/ucenter"
+	"ucenter-api/internal/handler"
 	"ucenter-api/internal/router"
 	"ucenter-api/internal/svc"
 
@@ -26,8 +25,8 @@ func main() {
 
 	ctx := svc.NewServiceContext(c)
 	routers := router.NewRouters(server)
-	ucenter.RegisterHandlers(routers, ctx)
-	market.RegisterHandlers(routers, ctx)
+	handler.RegisterMarketHandlers(routers, ctx)
+	handler.RegisterUcenterHandlers(routers, ctx)
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()
 }

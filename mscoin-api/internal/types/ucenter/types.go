@@ -37,13 +37,3 @@ type (
 		MemberRate    int    `json:"memberRate"`
 	}
 )
-type (
-	RateRequest struct {
-		Unit string `path:"unit" json:"unit"`
-		Ip   string `json:"ip,optional"`
-	}
-
-	RateResponse struct {
-		Rate float64 `json:"rate"`
-	}
-)

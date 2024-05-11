@@ -1,4 +1,4 @@
-package ucenter
+package handler
 
 import (
 	"coin-common/common"
@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"time"
 	"ucenter-api/internal/svc"
-	"ucenter-api/internal/types"
+	types "ucenter-api/internal/types/ucenter"
 )
 
 type RegisterHandler struct {

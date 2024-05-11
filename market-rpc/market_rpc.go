@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"grpc-common/market"
 	"grpc-common/market/rate"
 	"market/internal/config"
 	"market/internal/server"
@@ -22,13 +23,14 @@ func main() {
 
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
-	ctx := svc.NewServiceContext(c)
+	svc := svc.NewServiceContext(c)
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
-		rate.RegisterExchangeRateServer(grpcServer, server.NewExchangeRateServer(ctx))
+		rate.RegisterExchangeRateServer(grpcServer, server.NewExchangeRateServer(svc))
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)
 		}
+		market.RegisterMarketServer(grpcServer, server.NewMarketServer(svc))
 	})
 	defer s.Stop()
 

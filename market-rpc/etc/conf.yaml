@@ -12,3 +12,5 @@ RedisConf:
 JWT:
   AccessSecret: "!@#$mscoin"
   AccessExpire: 604800
+mongo:
+  url: mongodb://117.50.181.29:27017

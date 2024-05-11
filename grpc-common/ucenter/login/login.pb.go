@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.28.1
 // 	protoc        v5.26.1
-// source: login.proto
+// source: ucenter.proto
 
 package login
 
@@ -252,12 +252,12 @@ func file_login_proto_rawDescGZIP() []byte {
 
 var file_login_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_login_proto_goTypes = []interface{}{
-	(*LoginReq)(nil), // 0: login.LoginReq
-	(*LoginRes)(nil), // 1: login.LoginRes
+	(*LoginReq)(nil), // 0: ucenter.LoginReq
+	(*LoginRes)(nil), // 1: ucenter.LoginRes
 }
 var file_login_proto_depIdxs = []int32{
-	0, // 0: login.Login.login:input_type -> login.LoginReq
-	1, // 1: login.Login.login:output_type -> login.LoginRes
+	0, // 0: ucenter.Login.ucenter:input_type -> ucenter.LoginReq
+	1, // 1: ucenter.Login.ucenter:output_type -> ucenter.LoginRes
 	1, // [1:2] is the sub-list for method output_type
 	0, // [0:1] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name

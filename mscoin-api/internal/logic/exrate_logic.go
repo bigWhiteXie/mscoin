@@ -6,7 +6,7 @@ import (
 	"grpc-common/market/rate"
 	"time"
 	"ucenter-api/internal/svc"
-	"ucenter-api/internal/types"
+	types "ucenter-api/internal/types/market"
 )
 
 type ExchangeRate struct {

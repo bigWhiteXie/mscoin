@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v5.26.1
-// source: login.proto
+// source: ucenter.proto
 
 package login
 
@@ -35,7 +35,7 @@ func NewLoginClient(cc grpc.ClientConnInterface) LoginClient {
 
 func (c *loginClient) Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginRes, error) {
 	out := new(LoginRes)
-	err := c.cc.Invoke(ctx, "/login.Login/login", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ucenter.Login/ucenter", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +80,7 @@ func _Login_Login_Handler(srv interface{}, ctx context.Context, dec func(interfa
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/login.Login/login",
+		FullMethod: "/ucenter.Login/ucenter",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(LoginServer).Login(ctx, req.(*LoginReq))
@@ -92,14 +92,14 @@ func _Login_Login_Handler(srv interface{}, ctx context.Context, dec func(interfa
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Login_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "login.Login",
+	ServiceName: "ucenter.Login",
 	HandlerType: (*LoginServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "login",
+			MethodName: "ucenter",
 			Handler:    _Login_Login_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "login.proto",
+	Metadata: "ucenter.proto",
 }

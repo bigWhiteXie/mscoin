@@ -10,6 +10,10 @@ type Config struct {
 	RedisConf redis.RedisConf
 	Mysql     Mysql
 	JWT       JWT
+	Mongo     Mongo
+}
+type Mongo struct {
+	Url string
 }
 
 type Mysql struct {

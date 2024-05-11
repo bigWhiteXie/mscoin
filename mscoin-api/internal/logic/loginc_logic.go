@@ -4,11 +4,10 @@ import (
 	"context"
 	"github.com/jinzhu/copier"
 	"grpc-common/ucenter/login"
-
-	"ucenter-api/internal/svc"
-	"ucenter-api/internal/types"
+	types "ucenter-api/internal/types/ucenter"
 
 	"github.com/zeromicro/go-zero/core/logx"
+	"ucenter-api/internal/svc"
 )
 
 type LoginLogic struct {

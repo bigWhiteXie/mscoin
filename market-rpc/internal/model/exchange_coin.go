@@ -31,3 +31,7 @@ type ExchangeCoin struct {
 	Visible          int64   `gorm:"column:visible"`            //  前台可见状态
 	Zone             int64   `gorm:"column:zone"`               // 交易区域
 }
+
+func (e *ExchangeCoin) TableName() string {
+	return "exchange_coin"
+}

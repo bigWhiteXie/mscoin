@@ -1,4 +1,4 @@
-package ucenter
+package handler
 
 import (
 	"coin-common/common"
@@ -9,7 +9,7 @@ import (
 	"ucenter-api/internal/logic"
 	"ucenter-api/internal/router"
 	"ucenter-api/internal/svc"
-	"ucenter-api/internal/types"
+	types "ucenter-api/internal/types/ucenter"
 )
 
 type LoginHandler struct {

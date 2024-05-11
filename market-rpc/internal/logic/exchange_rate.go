@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/zeromicro/go-zero/core/logx"
 	"grpc-common/market/rate"
-	domain "market/internal/domain/exchange"
+	"market/internal/domain"
 	"market/internal/svc"
 )
 

@@ -1,13 +1,13 @@
-package market
+package handler
 
 import (
 	"coin-common/common"
 	"coin-common/tools"
 	"github.com/zeromicro/go-zero/rest/httpx"
 	"net/http"
-	logic "ucenter-api/internal/logic/market"
+	"ucenter-api/internal/logic"
 	"ucenter-api/internal/svc"
-	"ucenter-api/internal/types"
+	types "ucenter-api/internal/types/market"
 )
 
 type ExchangeRateHandler struct {
