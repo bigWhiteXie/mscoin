@@ -9,6 +9,7 @@ import (
 	"job-center/internal/database"
 	"job-center/internal/domain"
 	"job-center/internal/model"
+	"job-center/internal/svc"
 	"log"
 	"net/http"
 	"strings"
@@ -21,16 +22,19 @@ type Kline struct {
 	wg          *sync.WaitGroup
 	c           *config.Config
 	klineDomain *domain.KlineDomain
+	queueDomain *domain.QueueDomain
 	reqPath     string
 }
 
-func NewKline(c *config.Config) *Kline {
-	klineDao := dao.NewKlineDao(database.ConnectMongo(c).Db)
+func NewKline(svr *svc.ServiceContext) *Kline {
+	klineDao := dao.NewKlineDao(database.ConnectMongo(svr.Config).Db)
 	klineDomain := domain.NewKlineDomain(klineDao)
+	queueDomain := domain.NewQueueDomain(svr)
 	return &Kline{
 		wg:          &sync.WaitGroup{},
-		c:           c,
+		c:           svr.Config,
 		klineDomain: klineDomain,
+		queueDomain: queueDomain,
 		reqPath:     "/api/v5/market/candles",
 	}
 }
@@ -41,13 +45,13 @@ func (k *Kline) Do(period string) {
 	k.wg.Add(size)
 	for _, symbol := range k.c.Symbols {
 		log.Printf("===============拉取%s数据===============\n", symbol)
-		go k.syncToMongo(symbol, strings.Replace(symbol, "-", "/", 1), period)
+		go k.fetchKlineAndPush(symbol, strings.Replace(symbol, "-", "/", 1), period)
 	}
 	k.wg.Wait()
 	log.Println("===============k线数据拉取结束===============")
 }
 
-func (k *Kline) syncToMongo(instId string, symbol string, period string) {
+func (k *Kline) fetchKlineAndPush(instId string, symbol string, period string) {
 	defer k.wg.Done()
 	// 配置请求参数
 	requestPath := fmt.Sprintf(k.reqPath+"?instId=%s&bar=%s", instId, period) // 请求路径
@@ -84,4 +88,8 @@ func (k *Kline) syncToMongo(instId string, symbol string, period string) {
 		return
 	}
 	fmt.Println("HTTP Response:", string(body))
+	for _, data := range klineRes.Data {
+		k.queueDomain.PushKline(data, symbol, period)
+	}
+
 }

@@ -7,6 +7,10 @@ Okx:
 
 mongo:
   url: mongodb://117.50.181.29:27017
+Kafka:
+  Addr: localhost:9092
+  WriteCap: 128
+  ReadCap: 128
 
 Symbols:
   - BTC-USDT

@@ -12,6 +12,14 @@ type Config struct {
 	Okx     *Okx
 	Symbols []string
 	Mongo   Mongo
+	Kafka   KafkaConfig
+}
+
+type KafkaConfig struct {
+	Addr     string   `json:"addr,optional"`
+	WriteCap int      `json:"writeCap,optional"`
+	ReadCap  int      `json:"readCap,optional"`
+	Groups   []string `json:"Groups,optional"`
 }
 
 type Mongo struct {

@@ -19,8 +19,8 @@ func main() {
 	c := &config.Config{}
 	fmt.Print(*configFile + "\n")
 	conf.MustLoad(*configFile, c)
-	svc.NewServiceContext(c)
-	k := market.NewKline(c)
+	svr := svc.NewServiceContext(c)
+	k := market.NewKline(svr)
 
 	s := gocron.NewScheduler(time.UTC)
 	s.Every(1).Minutes().Do(func() {

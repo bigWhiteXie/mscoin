@@ -5,6 +5,8 @@ go 1.22.1
 require (
 	github.com/go-co-op/gocron v1.37.0
 	github.com/zeromicro/go-zero v1.6.4
+	go.mongodb.org/mongo-driver v1.15.0
+	github.com/segmentio/kafka-go v0.4.39
 )
 
 require (
@@ -22,7 +24,6 @@ require (
 	github.com/xdg-go/scram v1.1.2 // indirect
 	github.com/xdg-go/stringprep v1.0.4 // indirect
 	github.com/youmark/pkcs8 v0.0.0-20201027041543-1326539a0a0a // indirect
-	go.mongodb.org/mongo-driver v1.15.0 // indirect
 	go.opentelemetry.io/otel v1.19.0 // indirect
 	go.opentelemetry.io/otel/trace v1.19.0 // indirect
 	go.uber.org/atomic v1.10.0 // indirect
