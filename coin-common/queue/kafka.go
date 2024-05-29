@@ -1,12 +1,11 @@
-package database
+package queue
 
 import (
 	"context"
 	"errors"
-	"fmt"
 	"github.com/segmentio/kafka-go"
 	"github.com/zeromicro/go-zero/core/logx"
-	"job-center/internal/config"
+
 	"log"
 	"sync"
 	"time"
@@ -23,7 +22,7 @@ type KafkaClient struct {
 	w         *kafka.Writer
 	readers   map[group]*kafka.Reader
 	writeChan chan KafkaData
-	c         *config.KafkaConfig
+	c         *KafkaConfig
 	closed    bool
 	mutex     sync.Mutex
 	Consumers map[group]Consumer
@@ -32,12 +31,12 @@ type KafkaClient struct {
 type group string
 
 type Consumer interface {
-	Consume(data []byte) error
+	Consume(data KafkaData) error
 	Topic() string
 	Group() string
 }
 
-func NewKafkaClient(c *config.KafkaConfig) *KafkaClient {
+func NewKafkaClient(c *KafkaConfig) *KafkaClient {
 	return &KafkaClient{
 		c:         c,
 		readers:   make(map[group]*kafka.Reader, 16),
@@ -158,14 +157,13 @@ func (k *KafkaClient) readMsg(reader *kafka.Reader) {
 			logx.Error("kafka:拉取消息异常" + err.Error())
 			continue
 		}
-
 		k.Consumer(reader, &m)
 	}
 }
 
 func (k *KafkaClient) Consumer(reader *kafka.Reader, m *kafka.Message) {
 	ctx := context.Background()
-	g := string(reader.Config().GroupID)
+	g := reader.Config().GroupID
 	data := &KafkaData{
 		Group: g,
 		Key:   m.Key,
@@ -176,9 +174,11 @@ func (k *KafkaClient) Consumer(reader *kafka.Reader, m *kafka.Message) {
 		logx.Info("kafka: 消费者" + data.Group + "未注册")
 		return
 	}
-	err := c.Consume(data.Data)
-	if err = reader.CommitMessages(ctx, *m); err != nil {
+	if err := c.Consume(*data); err != nil {
+		return
+	}
+
+	if err := reader.CommitMessages(ctx, *m); err != nil {
 		logx.Info("kafka:消息提交失败：" + err.Error())
 	}
-	fmt.Println("kafka:消息提交成功：" + string(m.Value))
 }

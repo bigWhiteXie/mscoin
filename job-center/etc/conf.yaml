@@ -3,10 +3,13 @@ Okx:
   secret: C57A505F8919486F2026FDE3F34B8CA2
   passphrase: j3391111!Xl
   host: https://okx.com
-  proxy: http://localhost:7890
+  proxy: socks5://127.0.0.1:9998
 
 mongo:
-  url: mongodb://117.50.181.29:27017
+  Url: "mongodb://localhost:27018"
+  Username: "root"
+  Password: "root123456"
+  DataBase: "mscoin"
 Kafka:
   Addr: localhost:9092
   WriteCap: 128

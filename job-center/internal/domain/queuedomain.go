@@ -1,18 +1,19 @@
 package domain
 
 import (
+	"coin-common/queue"
 	"encoding/json"
 	"github.com/zeromicro/go-zero/core/logx"
-	"job-center/internal/database"
 	"job-center/internal/model"
 	"job-center/internal/svc"
 )
 
 type QueueDomain struct {
-	kafkaClient *database.KafkaClient
+	kafkaClient *queue.KafkaClient
 }
 
 const KLINE_1M_TOPIC = "kline_1m"
+const KLINE_1H_TOPIC = "kline_1h"
 
 func NewQueueDomain(svr *svc.ServiceContext) *QueueDomain {
 	return &QueueDomain{
@@ -21,8 +22,12 @@ func NewQueueDomain(svr *svc.ServiceContext) *QueueDomain {
 }
 
 func (q *QueueDomain) PushKline(data []string, symbol string, period string) error {
-	kafkaData := &database.KafkaData{
-		Topic: KLINE_1M_TOPIC,
+	topic := KLINE_1M_TOPIC
+	if period == "1h" {
+		topic = KLINE_1H_TOPIC
+	}
+	kafkaData := &queue.KafkaData{
+		Topic: topic,
 		Key:   []byte(symbol)}
 	kline := model.NewKline(data, period)
 	val, err := json.Marshal(kline)

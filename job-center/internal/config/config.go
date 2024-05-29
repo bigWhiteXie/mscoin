@@ -1,6 +1,7 @@
 package config
 
 import (
+	"coin-common/queue"
 	"coin-common/tools"
 	"log"
 	"net/http"
@@ -12,18 +13,21 @@ type Config struct {
 	Okx     *Okx
 	Symbols []string
 	Mongo   Mongo
-	Kafka   KafkaConfig
+	Kafka   queue.KafkaConfig
 }
 
-type KafkaConfig struct {
-	Addr     string   `json:"addr,optional"`
-	WriteCap int      `json:"writeCap,optional"`
-	ReadCap  int      `json:"readCap,optional"`
-	Groups   []string `json:"Groups,optional"`
-}
+//type KafkaConfig struct {
+//	Addr     string   `json:"addr,optional"`
+//	WriteCap int      `json:"writeCap,optional"`
+//	ReadCap  int      `json:"readCap,optional"`
+//	Groups   []string `json:"Groups,optional"`
+//}
 
 type Mongo struct {
-	Url string
+	Url      string
+	Username string
+	Password string
+	DataBase string
 }
 type Okx struct {
 	Key        string

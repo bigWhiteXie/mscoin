@@ -1,19 +1,20 @@
 package svc
 
 import (
+	"coin-common/queue"
 	"job-center/internal/config"
-	"job-center/internal/database"
 )
 
 type ServiceContext struct {
 	Config *config.Config
-	Kafka  *database.KafkaClient
+	Kafka  *queue.KafkaClient
 }
 
 func NewServiceContext(c *config.Config) *ServiceContext {
 	svc := &ServiceContext{
 		Config: c,
-		Kafka:  database.NewKafkaClient(&c.Kafka),
+		Kafka:  queue.NewKafkaClient(&c.Kafka),
 	}
+	svc.Kafka.StartWrite()
 	return svc
 }

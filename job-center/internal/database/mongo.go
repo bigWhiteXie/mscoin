@@ -14,12 +14,16 @@ type MongoClient struct {
 	Db  *mongo.Database
 }
 
-func ConnectMongo(c *config.Config) *MongoClient {
+func ConnectMongo(c *config.Mongo) *MongoClient {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-
+	credential := options.Credential{
+		Username: c.Username,
+		Password: c.Password,
+	}
 	client, err := mongo.Connect(ctx, options.Client().
-		ApplyURI(c.Mongo.Url))
+		ApplyURI(c.Url).
+		SetAuth(credential))
 	if err != nil {
 		panic(err)
 	}
@@ -27,7 +31,7 @@ func ConnectMongo(c *config.Config) *MongoClient {
 	if err != nil {
 		panic(err)
 	}
-	database := client.Database("mscoin")
+	database := client.Database(c.DataBase)
 	return &MongoClient{cli: client, Db: database}
 }
 

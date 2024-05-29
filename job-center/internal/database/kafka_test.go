@@ -1,6 +1,7 @@
 package database
 
 import (
+	"coin-common/queue"
 	"fmt"
 	"job-center/internal/config"
 	"strconv"
@@ -38,7 +39,7 @@ func (k KafkaConsumer) Group() string {
 
 func TestKafkaClient_Send(t *testing.T) {
 	// 创建一个 Kafka 客户端实例
-	k := NewKafkaClient(&config.KafkaConfig{Addr: "localhost:9092", WriteCap: 128, ReadCap: 128})
+	k := queue.NewKafkaClient(&config.KafkaConfig{Addr: "localhost:9092", WriteCap: 128, ReadCap: 128})
 	defer k.Close()
 	wg := &sync.WaitGroup{}
 	wg.Add(100)
@@ -59,7 +60,7 @@ func TestKafkaClient_Send(t *testing.T) {
 	// 发送消息
 	for i := 0; i <= 99; i++ {
 		index := i % 4
-		k.Send(KafkaData{Group: "group" + strconv.Itoa(index), Topic: "topic" + strconv.Itoa(index), Key: []byte("key1"), Data: []byte("value" + strconv.Itoa(i))})
+		k.Send(queue.KafkaData{Group: "group" + strconv.Itoa(index), Topic: "topic" + strconv.Itoa(index), Key: []byte("key1"), Data: []byte("value" + strconv.Itoa(i))})
 	}
 	wg.Wait()
 }
